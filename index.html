@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palabras de Aliento - Tu Refugio Espiritual</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <i class="fa-solid fa-heart-pulse"></i> Palabras de Aliento
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#" class="active">Inicio</a></li>
+                <li><a href="#animos">Estados de Ánimo</a></li>
+                <li><a href="#biblia">Biblia Online</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Encuentra la paz que tu corazón necesita hoy</h1>
+        <p>¿Cómo te sientes en este momento? Déjanos guiarte hacia una palabra de fe.</p>
+        
+        <div class="mood-selector" id="animos">
+            <button class="btn-mood" onclick="mostrarVersiculo('triste')">😢 Triste</button>
+            <button class="btn-mood" onclick="mostrarVersiculo('ansioso')">😰 Ansioso</button>
+            <button class="btn-mood" onclick="mostrarVersiculo('feliz')">😊 Agradecido</button>
+            <button class="btn-mood" onclick="mostrarVersiculo('cansado')">😫 Cansado</button>
+            <button class="btn-mood" onclick="mostrarVersiculo('temeroso')">😨 Con Miedo</button>
+        </div>
+    </section>
+
+    <main class="container">
+        <section id="box-versiculo" class="hidden">
+    <h2 id="titulo-animo">¿Cómo te sientes hoy?</h2>
+    
+    <div id="contenedor-libros-animo"></div>
+    
+    <div id="pantalla-versiculo" class="hidden">
+        <p id="texto-versiculo"></p>
+        <span id="cita-versiculo"></span>
+    </div>
+</section>
+        <!-- <section id="box-versiculo" class="versiculo-card hidden">
+            <h2 id="titulo-animo">Estado de ánimo</h2>
+            <blockquote id="texto-versiculo">"Aquí aparecerá la palabra de aliento..."</blockquote>
+            <cite id="cita-versiculo">- Cita Bíblica</cite>
+            <div class="card-actions">
+                <button class="btn-action"><i class="fa-regular fa-heart"></i> Guardar</button>
+                <button class="btn-action"><i class="fa-solid fa-share-nodes"></i> Compartir</button>
+            </div>
+        </section> -->
+    </main>
+
+    <section id="biblia" class="biblia-section">
+        <h2>La Santa Biblia</h2>
+        <p>Lee y medita en las Escrituras directamente desde aquí.</p>
+        
+        <div class="biblia-controles">
+            <select id="select-libro" onchange="actualizarCapitulos()">
+            </select>
+
+            <select id="select-capitulo" onchange="cargarCapitulo()">
+            </select>
+        </div>
+
+        <div class="biblia-visor">
+            <div id="visor-texto" class="texto-sagrado">
+                </div>
+        </div>
+    </section>
+    <footer>
+        <p>&copy; 2026 Palabras de Aliento. Hecho con ❤️ para bendecir tu vida.</p>
+    </footer>
+    <script src="scritp.js"></script>
+</body>
+</html>
