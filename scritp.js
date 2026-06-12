@@ -43,26 +43,43 @@ function mostrarVersiculo(animo) {
     // 2. Limpiar el contenedor de libros anterior y ocultar versículos previos
     contenedorLibros.innerHTML = "";
     pantallaVersiculo.classList.add('hidden');
-    textoVersiculo.innerText = "";
+    textoVersiculo.innerHTML = "";
     citaVersiculo.innerText = "";
 
-    // 3. Generar la botonera dinámica de libros recomendados
+    // 3. Agrupar versículos por libro
+    const librosAgrupados = {};
     lista.forEach((item) => {
+        if (!librosAgrupados[item.libro]) {
+            librosAgrupados[item.libro] = [];
+        }
+        librosAgrupados[item.libro].push(item);
+    });
+
+    // 4. Generar la botonera dinámica con libros únicos
+    Object.keys(librosAgrupados).forEach((libro) => {
+        const versiculosDelLibro = librosAgrupados[libro];
         const boton = document.createElement('button');
         boton.className = "btn-libro-animo";
-        boton.innerText = item.libro;
+        boton.innerText = libro;
 
         // Evento al presionar el libro específico
         boton.onclick = function() {
-            textoVersiculo.innerText = `"${item.texto}"`;
-            citaVersiculo.innerText = `- ${item.cita}`;
+            // Mostrar todos los versículos del libro seleccionado
+            let htmlVersiculos = "";
+            versiculosDelLibro.forEach((item, index) => {
+                htmlVersiculos += `<div class="versiculo-item">
+                    <p><strong>${item.cita}:</strong> "${item.texto}"</p>
+                </div>`;
+            });
+            textoVersiculo.innerHTML = htmlVersiculos;
+            citaVersiculo.innerText = ""; // Ocultar la cita única ya que ahora mostraremos varias
             pantallaVersiculo.classList.remove('hidden'); // Mostrar el texto sagrado
         };
 
         contenedorLibros.appendChild(boton);
     });
 
-    // 4. Mostrar bloque global y desplazar la ventana elegantemente
+    // 5. Mostrar bloque global y desplazar la ventana elegantemente
     boxVersiculo.classList.remove('hidden');
     boxVersiculo.scrollIntoView({ behavior: 'smooth' });
 }
@@ -95,7 +112,7 @@ const infoLibros = {
     "SNG": { nombre: "Cantares", caps: 8, apiKey: "Song of Solomon" },
     "ISA": { nombre: "Isaías", caps: 66, apiKey: "Isaiah" },
     "JER": { nombre: "Jeremías", caps: 52, apiKey: "Jeremiah" },
-    "LAM": { module: "Lamentaciones", caps: 5, apiKey: "Lamentations" },
+    "LAM": { nombre: "Lamentaciones", caps: 5, apiKey: "Lamentations" },
     "EZK": { nombre: "Ezequiel", caps: 48, apiKey: "Ezekiel" },
     "DAN": { nombre: "Daniel", caps: 12, apiKey: "Daniel" },
     "HOS": { nombre: "Oseas", caps: 14, apiKey: "Hosea" },
@@ -152,7 +169,7 @@ function inicializarLibros() {
     Object.keys(infoLibros).forEach((clave) => {
         const option = document.createElement('option');
         option.value = clave; 
-        option.text = infoLibros[clave].nombre || infoLibros[clave].module; 
+        option.text = infoLibros[clave].nombre; 
         selectLibro.appendChild(option);
     });
 
