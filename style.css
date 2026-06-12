@@ -1,305 +1,552 @@
-/* Variables de diseño */
+/* ==========================================================================
+   1. CONFIGURACIÓN GENERAL Y VARIABLES (Estilo Pacífico y Limpio)
+   ========================================================================== */
 :root {
-    --color-principal: #6c5ce7;
-    --color-fondo: #f9f9fb;
+    --color-principal: #4a7c59; /* Verde olivo / paz */
+    --color-secundario: #68809a; /* Azul espiritual */
+    --color-fondo: #f4f7f6; /* Blanco almendra relajante */
     --color-tarjeta: #ffffff;
-    --color-texto: #2d3436;
-    --color-suave: #a29bfe;
+    --color-texto: #2c3e50;
+    --fuente-base: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
+    font-family: var(--fuente-base);
     background-color: var(--color-fondo);
     color: var(--color-texto);
     line-height: 1.6;
 }
 
-/* Navegación */
-header {
+/* Herramienta clave para ocultar elementos dinámicos */
+.hidden {
+    display: none !important;
+}
+
+/* ==========================================================================
+   2. BARRA DE NAVEGACIÓN (Navbar)
+   ========================================================================== */
+.navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 10%;
-    background: var(--color-tarjeta);
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    background-color: var(--color-tarjeta);
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     position: sticky;
     top: 0;
     z-index: 100;
 }
 
-header .logo {
-    font-size: 1.5rem;
+.nav-logo {
+    font-size: 1.4rem;
     font-weight: bold;
     color: var(--color-principal);
 }
 
-nav ul {
-    display: flex;
-    list-style: none;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: var(--color-texto);
-    margin-left: 20px;
-    font-weight: 500;
-    transition: color 0.3s;
-}
-
-nav ul li a:hover, nav ul li a.active {
-    color: var(--color-principal);
-}
-
-/* Héroe y Botones de Ánimo */
-.hero {
-    text-align: center;
-    padding: 60px 20px;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-}
-
-.hero h1 {
-    font-size: 2.5rem;
-    margin-bottom: 15px;
-    color: #4834d4;
-}
-
-.mood-selector {
-    margin-top: 30px;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 15px;
-}
-
-.btn-mood {
-    padding: 12px 25px;
-    font-size: 1.1rem;
+.nav-botones button {
+    padding: 0.6rem 1.2rem;
+    margin-left: 0.5rem;
     border: none;
-    background: var(--color-tarjeta);
-    color: var(--color-texto);
-    border-radius: 30px;
+    border-radius: 20px;
     cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    font-weight: 600;
     transition: all 0.3s ease;
 }
 
-.btn-mood:hover {
-    transform: translateY(-3px);
-    background: var(--color-principal);
+#btn-estado-sesion {
+    background-color: var(--color-principal);
     color: white;
-    box-shadow: 0 6px 15px rgba(108, 92, 231, 0.4);
 }
 
-/* Tarjeta de Versículos */
-.container {
+#btn-estado-sesion:hover {
+    background-color: #3b6347;
+}
+
+#btn-ver-favoritos {
+    background-color: #ffcad4;
+    color: #d63447;
+}
+
+#btn-ver-favoritos:hover {
+    background-color: #ffb3c1;
+}
+
+/* ==========================================================================
+   3. CONTENEDOR PRINCIPAL Y SECCIONES
+   ========================================================================== */
+.contenedor-app {
     max-width: 800px;
-    margin: 40px auto;
-    padding: 0 20px;
+    margin: 2rem auto;
+    padding: 0 1rem;
 }
 
-.versiculo-card {
-    background: var(--color-tarjeta);
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-    text-align: center;
-    border-left: 5px solid var(--color-principal);
-    animation: fadeIn 0.5s ease-in-out;
-}
-
-.versiculo-card h2 {
-    font-size: 1.2rem;
-    text-transform: uppercase;
-    color: var(--color-suave);
-    letter-spacing: 2px;
-    margin-bottom: 20px;
-}
-
-.versiculo-card blockquote {
-    font-size: 1.6rem;
-    font-style: italic;
-    margin-bottom: 20px;
-    color: var(--color-texto);
-}
-
-.versiculo-card cite {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 20px;
-    color: #636e72;
-}
-
-.card-actions {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-}
-
-.btn-action {
-    background: none;
-    border: 1px solid #dfe6e9;
-    padding: 8px 20px;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.btn-action:hover {
-    background: #f1f2f6;
-    color: var(--color-principal);
-}
-
-.hidden {
-    display: none;
-}
-
-/* Sección Biblia */
-.biblia-section {
-    padding: 60px 10%;
-    text-align: center;
-    background: #fff;
-}
-
-.biblia-container {
-    margin-top: 30px;
-    height: 600px;
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-}
-
-.biblia-container iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-}
-
-footer {
-    text-align: center;
-    padding: 20px;
-    background: var(--color-texto);
-    color: white;
-    font-size: 0.9rem;
-}
-
-/* Animación de aparición */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Estilos para el Lector Bíblico Integrado */
-.biblia-controles {
-    margin: 20px 0;
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-}
-
-.biblia-controles select {
-    padding: 10px 20px;
-    font-size: 1rem;
-    border-radius: 8px;
-    border: 2px solid var(--color-suave);
-    background: white;
-    outline: none;
-    cursor: pointer;
-}
-
-.biblia-visor {
-    background: #fff;
-    max-width: 750px;
-    margin: 20px auto;
-    padding: 40px;
+section {
+    background-color: var(--color-tarjeta);
+    padding: 2rem;
     border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-    text-align: left;
-    max-height: 500px;
-    overflow-y: auto; /* Permite scroll interno si el capítulo es largo */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    margin-bottom: 2rem;
+    text-align: center;
 }
 
-.texto-sagrado p {
-    font-size: 1.2rem;
-    margin-bottom: 15px;
+h2 {
+    color: var(--color-principal);
+    margin-bottom: 0.5rem;
+}
+
+p {
+    color: #7f8c8d;
+    margin-bottom: 1.5rem;
+}
+
+/* Botones de Estados de Ánimo */
+.botones-animo {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+}
+
+.btn-animo {
+    border: 2px solid transparent;
+    padding: 0.95rem 1rem;
+    border-radius: 14px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+    font-weight: 700;
+}
+
+.btn-animo:hover {
+    transform: translateY(-2px);
+}
+
+.btn-animo.active,
+.btn-animo:hover {
+    color: #ffffff;
+}
+
+.btn-animo--triste {
+    background-color: #dbeaf1;
+    color: #255a7c;
+    border-color: #93b8d2;
+}
+
+.btn-animo--triste.active,
+.btn-animo--triste:hover {
+    background-color: #5e94c2;
+    color: #fff;
+}
+
+.btn-animo--ansioso {
+    background-color: #f6e8d8;
+    color: #9b5d3d;
+    border-color: #d5b09b;
+}
+
+.btn-animo--ansioso.active,
+.btn-animo--ansioso:hover {
+    background-color: #d18f57;
+    color: #fff;
+}
+
+.btn-animo--feliz {
+    background-color: #eaf9e6;
+    color: #3d7a45;
+    border-color: #a9c9a8;
+}
+
+.btn-animo--feliz.active,
+.btn-animo--feliz:hover {
+    background-color: #63a85f;
+    color: #fff;
+}
+
+.btn-animo--cansado {
+    background-color: #ede7f4;
+    color: #5e4a8a;
+    border-color: #b2a0c2;
+}
+
+.btn-animo--cansado.active,
+.btn-animo--cansado:hover {
+    background-color: #7a68b3;
+    color: #fff;
+}
+
+.btn-animo--temeroso {
+    background-color: #f9e7f0;
+    color: #8a5d75;
+    border-color: #d3aec4;
+}
+
+.btn-animo--temeroso.active,
+.btn-animo--temeroso:hover {
+    background-color: #b5688d;
+    color: #fff;
+}
+
+/* Caja del Versículo Resultado */
+#box-versiculo {
+    background-color: #eef5f0;
+    border-left: 5px solid var(--color-principal);
+    padding: 1.5rem;
+    border-radius: 16px;
+    margin-bottom: 2rem;
+    text-align: center;
+    transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+#box-versiculo.mood-triste {
+    background: linear-gradient(135deg, #dbeaf1 0%, #f4fbff 100%);
+    border-color: #5e94c2;
+}
+
+#box-versiculo.mood-ansioso {
+    background: linear-gradient(135deg, #f6e8d8 0%, #fff8f0 100%);
+    border-color: #d18f57;
+}
+
+#box-versiculo.mood-feliz {
+    background: linear-gradient(135deg, #eaf9e6 0%, #f7fff5 100%);
+    border-color: #63a85f;
+}
+
+#box-versiculo.mood-cansado {
+    background: linear-gradient(135deg, #ede7f4 0%, #f9f5ff 100%);
+    border-color: #7a68b3;
+}
+
+#box-versiculo.mood-temeroso {
+    background: linear-gradient(135deg, #f9e7f0 0%, #fff7fb 100%);
+    border-color: #b5688d;
+}
+
+#box-versiculo.mood-triste .btn-libro-animo {
+    background-color: #eef7fb;
+    border-color: rgba(94,148,194,0.24);
+    color: #255a7c;
+    box-shadow: 0 10px 24px rgba(94,148,194,0.14);
+}
+
+#box-versiculo.mood-triste .btn-libro-animo:hover {
+    background-color: #5e94c2;
+    color: #fff;
+}
+
+#box-versiculo.mood-ansioso .btn-libro-animo {
+    background-color: #fbf0e8;
+    border-color: rgba(209,143,87,0.24);
+    color: #9b5d3d;
+    box-shadow: 0 10px 24px rgba(209,143,87,0.14);
+}
+
+#box-versiculo.mood-ansioso .btn-libro-animo:hover {
+    background-color: #d18f57;
+    color: #fff;
+}
+
+#box-versiculo.mood-feliz .btn-libro-animo {
+    background-color: #ecf9ec;
+    border-color: rgba(99,168,95,0.24);
+    color: #3d7a45;
+    box-shadow: 0 10px 24px rgba(99,168,95,0.14);
+}
+
+#box-versiculo.mood-feliz .btn-libro-animo:hover {
+    background-color: #63a85f;
+    color: #fff;
+}
+
+#box-versiculo.mood-cansado .btn-libro-animo {
+    background-color: #f1eff8;
+    border-color: rgba(122,104,179,0.24);
+    color: #5e4a8a;
+    box-shadow: 0 10px 24px rgba(122,104,179,0.14);
+}
+
+#box-versiculo.mood-cansado .btn-libro-animo:hover {
+    background-color: #7a68b3;
+    color: #fff;
+}
+
+#box-versiculo.mood-temeroso .btn-libro-animo {
+    background-color: #fbeeef;
+    border-color: rgba(181,104,141,0.24);
+    color: #8a5d75;
+    box-shadow: 0 10px 24px rgba(181,104,141,0.14);
+}
+
+#box-versiculo.mood-temeroso .btn-libro-animo:hover {
+    background-color: #b5688d;
+    color: #fff;
+}
+
+#texto-versiculo {
     color: var(--color-texto);
-    line-height: 1.8;
+    margin-bottom: 0.5rem;
 }
 
-/* Número del versículo pequeño y elegante */
-.num-ver {
-    font-size: 0.85rem;
+#texto-versiculo .versiculo-card {
+    background: linear-gradient(135deg, rgba(74,124,89,0.08) 0%, rgba(255,255,255,0.98) 45%, rgba(255,255,255,0.96) 100%);
+    border: 1px solid rgba(74,124,89,0.24);
+    border-left: 6px solid var(--color-principal);
+    border-radius: 18px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.25rem;
+    text-align: left;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.06);
+}
+
+#texto-versiculo .versiculo-card p {
+    margin: 0 0 1rem 0;
+    font-size: 1rem;
+    font-style: italic;
+    line-height: 1.75;
+    color: #2b3a41;
+    letter-spacing: 0.01em;
+}
+
+#texto-versiculo .versiculo-card strong {
+    display: inline-block;
+    margin-bottom: 1rem;
+    color: #3f6a4f;
+    font-size: 0.95rem;
+}
+
+#texto-versiculo .versiculo-card .btn-fav-card {
+    margin-top: 0.5rem;
+}
+
+#cita-versiculo {
     font-weight: bold;
     color: var(--color-principal);
-    margin-right: 8px;
-    vertical-align: super;
 }
 
-.error-biblia {
-    text-align: center;
-    color: #b2bec3;
-    font-style: italic;
-}
-
-.cargando-biblia {
-    text-align: center;
-    font-size: 1.2rem;
-    color: var(--color-principal);
-    font-style: italic;
-    animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-    0% { opacity: 0.5; }
-    50% { opacity: 1; }
-    100% { opacity: 0.5; }
-}
-
-/* Contenedor de los libros filtrados por ánimo */
+/* Contenedor de libros por estado de ánimo */
 #contenedor-libros-animo {
     display: flex;
+    gap: 0.8rem;
     justify-content: center;
-    gap: 12px;
     flex-wrap: wrap;
-    margin: 20px 0;
-    padding: 0 10px;
+    margin: 1rem 0;
+    padding: 0.8rem;
+    background-color: rgba(74,124,89,0.06);
+    border-radius: 16px;
 }
 
-/* Botones interactivos de los libros sugeridos */
 .btn-libro-animo {
-    background-color: var(--color-principal, #6b8e23);
-    color: #ffffff;
-    border: none;
-    padding: 10px 22px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    border-radius: 25px;
+    background: linear-gradient(135deg, #ffffff 0%, rgba(255,255,255,0.92) 100%);
+    border: 1px solid rgba(74,124,89,0.18);
+    color: var(--color-principal);
+    padding: 0.75rem 1rem;
+    border-radius: 999px;
     cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+    transition: transform 0.16s ease, background-color 0.16s ease, color 0.16s ease, box-shadow 0.16s ease;
+    font-weight: 700;
 }
 
 .btn-libro-animo:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    opacity: 0.9;
+    background-color: var(--color-principal);
+    color: #fff;
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.12);
 }
 
-/* Contenedor interno del versículo revelado */
-#pantalla-versiculo {
-    margin-top: 25px;
-    padding: 20px;
-    background-color: rgba(255, 255, 255, 0.5);
+/* Botón para guardar en favoritos dentro del versículo */
+.btn-fav-card {
+    background-color: #ffffff;
+    border: 1px solid rgba(74,124,89,0.2);
+    color: var(--color-principal);
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: background-color 0.18s ease, color 0.18s ease, transform 0.12s ease, box-shadow 0.18s ease;
+    box-shadow: 0 6px 16px rgba(74,124,89,0.08);
+}
+
+.btn-fav-card:hover {
+    background-color: var(--color-principal);
+    color: #fff;
+    transform: scale(1.03);
+}
+
+/* Separador elegante */
+.separador {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
+    margin: 2.5rem 0;
+}
+
+/* Panel de Favoritos */
+#panel-favoritos {
+    border-top: 3px solid #ffcad4;
+}
+
+/* Visor de la Biblia */
+.selectores-biblia {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.selectores-biblia select {
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #cccccc;
+    font-size: 1rem;
+    outline: none;
+    min-width: 150px;
+}
+
+#visor-texto {
+    background-color: #fcfcfb;
+    padding: 2rem;
+    border-radius: 14px;
+    text-align: left;
+    max-height: 460px;
+    overflow-y: auto;
+    box-shadow: inset 0 0 0 1px rgba(76, 115, 88, 0.08);
+}
+
+#visor-texto p {
+    color: #1f2a2a;
+    font-size: 1.1rem;
+    line-height: 2.05;
+    margin-bottom: 1.1rem;
+    letter-spacing: 0.02em;
+}
+
+.versiculo-linea {
+    font-weight: 600;
+}
+
+.num-ver {
+    display: inline-block;
+    min-width: 2.4rem;
+    margin-right: 0.75rem;
+    color: #4f6662;
+    font-weight: 700;
+}
+
+.instruccion-inicial {
+    color: #4f6662;
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+/* ==========================================================================
+   4. VENTANA MODAL (Formularios de Inicio de Sesión / Registro)
+   ========================================================================== */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.contenido-modal {
+    background-color: var(--color-tarjeta);
+    padding: 2.5rem;
     border-radius: 12px;
-    border-left: 4px solid var(--color-principal, #6b8e23);
-    transition: all 0.3s ease;
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+    text-align: left;
 }
 
-#pantalla-versiculo.hidden {
-    display: none;
+.cerrar-modal {
+    position: absolute;
+    top: 1rem;
+    right: 1.2rem;
+    font-size: 1.8rem;
+    color: #95a5a6;
+    cursor: pointer;
+}
+
+.cerrar-modal:hover {
+    color: #2c3e50;
+}
+
+.contenido-modal h3 {
+    margin-bottom: 1.5rem;
+    color: var(--color-texto);
+}
+
+.contenido-modal input {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    outline: none;
+}
+
+.contenido-modal input:focus {
+    border-color: var(--color-principal);
+}
+
+.btn-auth {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: var(--color-principal);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-auth:hover {
+    background-color: #3b6347;
+}
+
+.cambio-auth {
+    margin-top: 1.2rem;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.cambio-auth a {
+    color: var(--color-secundario);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.cambio-auth a:hover {
+    text-decoration: underline;
+}
+
+
+/* Ajuste interactivo para pantallas táctiles (Celulares) */
+@media (max-width: 480px) {
+    .botones-animo {
+        grid-template-columns: 1fr; /* Una sola columna en celulares pequeños */
+        gap: 15px;
+    }
+    
+    .botones-animo button,
+    .btn-libro-animo {
+        width: 100%;
+        padding: 20px;
+    }
 }

@@ -1,0 +1,114 @@
+{
+  "libros": {
+    "GEN": {
+      "nombre": "Génesis",
+      "capitulos": {
+        "1": [
+          {"verso": 1, "texto": "En el principio creó Dios los cielos y la tierra."},
+          {"verso": 2, "texto": "Y la tierra estaba desordenada y vacía, y las tinieblas estaban sobre la faz del abismo, y el Espíritu de Dios se movía sobre la faz de las aguas."},
+          {"verso": 3, "texto": "Y dijo Dios: Sea la luz; y fue la luz."},
+          {"verso": 4, "texto": "Y vio Dios que la luz era buena; y separó Dios la luz de las tinieblas."},
+          {"verso": 5, "texto": "Y llamó Dios a la luz Día, y a las tinieblas llamó Noche. Y fue la tarde y la mañana un día."},
+          {"verso": 6, "texto": "Luego dijo Dios: Haya expansión en medio de las aguas, y separe las aguas de las aguas."},
+          {"verso": 7, "texto": "E hizo Dios la expansión, y separó las aguas que estaban debajo de la expansión, de las aguas que estaban sobre la expansión. Y fue así."},
+          {"verso": 8, "texto": "Y llamó Dios a la expansión Cielos. Y fue la tarde y la mañana el día segundo."},
+          {"verso": 9, "texto": "Dijo también Dios: Júntense las aguas que están debajo de los cielos en un lugar, y descúbrase lo seco. Y fue así."},
+          {"verso": 10, "texto": "Y llamó Dios a lo seco Tierra, y a la reunión de las aguas llamó Mares. Y vio Dios que era bueno."}
+        ]
+      }
+    },
+    "SAL": {
+      "nombre": "Salmos",
+      "capitulos": {
+        "1": [
+          {"verso": 1, "texto": "Bienaventurado el varón que no anduvo en consejo de malos, ni estuvo en camino de pecadores, ni en silla de burladores se ha sentado;"},
+          {"verso": 2, "texto": "Sino que en la ley de Jehová está su delicia, y en su ley medita de día y de noche."},
+          {"verso": 3, "texto": "Será como árbol plantado junto a corrientes de aguas, que da su fruto en su tiempo, y su hoja no cae; y todo lo que hace, prosperará."},
+          {"verso": 4, "texto": "No así los malos, que son como el tamo que arrebata el viento."},
+          {"verso": 5, "texto": "Por tanto, no se levantarán los malos en el juicio, ni los pecadores en la congregación de los justos."},
+          {"verso": 6, "texto": "Porque Jehová conoce el camino de los justos; mas la senda de los malos perecerá."}
+        ],
+        "23": [
+          {"verso": 1, "texto": "Jehová es mi pastor; nada me faltará."},
+          {"verso": 2, "texto": "En lugares de delicados pastos me hará descansar; junto a aguas de reposo me pastoreará."},
+          {"verso": 3, "texto": "Confortará mi alma; me guiará por sendas de justicia por amor de su nombre."},
+          {"verso": 4, "texto": "Aunque ande en valle de sombra de muerte, no temeré mal alguno, porque tú estarás conmigo; tu vara y tu cayado me infundirán aliento."},
+          {"verso": 5, "texto": "Aderezas mesa delante de mí en presencia de mis angustiadores; unges mi cabeza con aceite; mi copa está rebosando."},
+          {"verso": 6, "texto": "Ciertamente el bien y la misericordia me seguirán todos los días de mi vida, y en la casa de Jehová moraré por largos días."}
+        ],
+        "34": [
+          {"verso": 18, "texto": "Cercano está Jehová a los quebrantados de corazón; y salva a los contritos de espíritu."}
+        ],
+        "91": [
+          {"verso": 1, "texto": "El que habita al abrigo del Altísimo morará bajo la sombra del Omnipotente."}
+        ],
+        "56": [
+          {"verso": 3, "texto": "En el día que temo, yo en ti confío."}
+        ],
+        "94": [
+          {"verso": 19, "texto": "En la multitud de mis pensamientos dentro de mí, tus consolaciones alegraban mi alma."}
+        ],
+        "103": [
+          {"verso": 1, "texto": "Alaba, alma mía, al Señor; alabe todo mi ser su santo nombre."}
+        ],
+        "118": [
+          {"verso": 24, "texto": "Este es el día que hizo Jehová; nos gozaremos y alegraremos en él."}
+        ]
+      }
+    },
+    "MAT": {
+      "nombre": "Mateo",
+      "capitulos": {
+        "5": [
+          {"verso": 4, "texto": "Bienaventurados los que lloran, porque ellos recibirán consolación."}
+        ],
+        "11": [
+          {"verso": 28, "texto": "Venid a mí todos los que estáis trabajados y cargados, y yo os haré descansar."}
+        ]
+      }
+    },
+    "ISA": {
+      "nombre": "Isaías",
+      "capitulos": {
+        "41": [
+          {"verso": 10, "texto": "No temas, porque yo estoy contigo; no desmayes, porque yo estoy con tu Dios que te esfuerzo; siempre te ayudaré, siempre te sustentaré con la diestra de mi justicia."}
+        ],
+        "40": [
+          {"verso": 29, "texto": "Él da esfuerzo al cansado, y multiplica las fuerzas al que no tiene ningunas."}
+        ]
+      }
+    },
+    "FLP": {
+      "nombre": "Filipenses",
+      "capitulos": {
+        "4": [
+          {"verso": 6, "texto": "Por nada estéis afanosos, sino sean conocidas vuestras peticiones delante de Dios en toda oración y ruego, con acción de gracias."}
+        ]
+      }
+    },
+    "1PE": {
+      "nombre": "1 Pedro",
+      "capitulos": {
+        "5": [
+          {"verso": 7, "texto": "Echando toda vuestra ansiedad sobre él, porque él tiene cuidado de vosotros."}
+        ]
+      }
+    },
+    "PRO": {
+      "nombre": "Proverbios",
+      "capitulos": {
+        "15": [
+          {"verso": 13, "texto": "El corazón alegre hermosea el rostro; mas por el dolor del corazón el espíritu se abate."}
+        ]
+      }
+    },
+    "2TI": {
+      "nombre": "2 Timoteo",
+      "capitulos": {
+        "1": [
+          {"verso": 7, "texto": "Porque no nos ha dado Dios espíritu de cobardía, sino de poder, de amor y de dominio propio."}
+        ]
+      }
+    }
+  }
+}

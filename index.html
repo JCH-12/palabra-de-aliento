@@ -5,78 +5,93 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Palabras de Aliento - Tu Refugio Espiritual</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
-    <header>
-        <div class="logo">
-            <i class="fa-solid fa-heart-pulse"></i> Palabras de Aliento
+    <nav class="navbar">
+        <div class="nav-logo">📖 Palabras de Aliento</div>
+        <div class="nav-botones">
+            <button id="btn-estado-sesion" onclick="abrirModalAuth()">Iniciar Sesión</button>
+            <button id="btn-ver-favoritos" class="hidden" onclick="toggleFavoritosPanel()">Mis Favoritos (<span id="contador-favs">0</span>)</button>
         </div>
-        <nav>
-            <ul>
-                <li><a href="#" class="active">Inicio</a></li>
-                <li><a href="#animos">Estados de Ánimo</a></li>
-                <li><a href="#biblia">Biblia Online</a></li>
-            </ul>
-        </nav>
-    </header>
+    </nav>
 
-    <section class="hero">
-        <h1>Encuentra la paz que tu corazón necesita hoy</h1>
-        <p>¿Cómo te sientes en este momento? Déjanos guiarte hacia una palabra de fe.</p>
+    <main class="contenedor-app">
         
-        <div class="mood-selector" id="animos">
-            <button class="btn-mood" onclick="mostrarVersiculo('triste')">😢 Triste</button>
-            <button class="btn-mood" onclick="mostrarVersiculo('ansioso')">😰 Ansioso</button>
-            <button class="btn-mood" onclick="mostrarVersiculo('feliz')">😊 Agradecido</button>
-            <button class="btn-mood" onclick="mostrarVersiculo('cansado')">😫 Cansado</button>
-            <button class="btn-mood" onclick="mostrarVersiculo('temeroso')">😨 Con Miedo</button>
-        </div>
-    </section>
-
-    <main class="container">
-        <section id="box-versiculo" class="hidden">
-    <h2 id="titulo-animo">¿Cómo te sientes hoy?</h2>
-    
-    <div id="contenedor-libros-animo"></div>
-    
-    <div id="pantalla-versiculo" class="hidden">
-        <p id="texto-versiculo"></p>
-        <span id="cita-versiculo"></span>
-    </div>
-</section>
-        <!-- <section id="box-versiculo" class="versiculo-card hidden">
-            <h2 id="titulo-animo">Estado de ánimo</h2>
-            <blockquote id="texto-versiculo">"Aquí aparecerá la palabra de aliento..."</blockquote>
-            <cite id="cita-versiculo">- Cita Bíblica</cite>
-            <div class="card-actions">
-                <button class="btn-action"><i class="fa-regular fa-heart"></i> Guardar</button>
-                <button class="btn-action"><i class="fa-solid fa-share-nodes"></i> Compartir</button>
+        <section class="seccion-animo">
+            <h2>¿Cómo te sientes hoy?</h2>
+            <p>Selecciona tu estado de ánimo para recibir guía de las Escrituras:</p>
+            <div class="botones-animo">
+                <button class="btn-animo btn-animo--triste" data-animo="triste" onclick="mostrarVersiculo('triste')">😢 Triste</button>
+                <button class="btn-animo btn-animo--ansioso" data-animo="ansioso" onclick="mostrarVersiculo('ansioso')">😰 Ansioso</button>
+                <button class="btn-animo btn-animo--feliz" data-animo="feliz" onclick="mostrarVersiculo('feliz')">😊 Feliz</button>
+                <button class="btn-animo btn-animo--cansado" data-animo="cansado" onclick="mostrarVersiculo('cansado')">😴 Cansado</button>
+                <button class="btn-animo btn-animo--temeroso" data-animo="temeroso" onclick="mostrarVersiculo('temeroso')">😨 Temeroso</button>
             </div>
-        </section> -->
+        </section>
+
+        <div id="box-versiculo" class="hidden">
+            <h3 id="titulo-animo"></h3>
+            <div id="contenedor-libros-animo"></div>
+            
+            <div id="pantalla-versiculo" class="hidden">
+                <div id="texto-versiculo"></div>
+                <p id="cita-versiculo"></p>
+            </div>
+        </div>
+
+        <section id="panel-favoritos" class="hidden">
+            <h3>💖 Tus Versículos Guardados</h3>
+            <div id="lista-favoritos">
+                <p class="sin-favoritos">Aún no has guardado ningún versículo.</p>
+            </div>
+        </section>
+
+        <hr class="separador">
+
+        <section class="seccion-biblia">
+            <h2>📖 Consulta la Biblia Completa</h2>
+            <div class="selectores-biblia">
+                <select id="select-traduccion" onchange="cargarCapitulo()">
+                    <option value="spanish">Español (RVR1960)</option>
+                    <option value="english">English (Web)</option>
+                </select>
+                <select id="select-libro" onchange="actualizarCapitulos()"></select>
+                <select id="select-capitulo" onchange="cargarCapitulo()"></select>
+            </div>
+            <div id="visor-texto">
+                <p class="instruccion-inicial">Selecciona un libro y capítulo para comenzar la lectura.</p>
+            </div>
+        </section>
     </main>
 
-    <section id="biblia" class="biblia-section">
-        <h2>La Santa Biblia</h2>
-        <p>Lee y medita en las Escrituras directamente desde aquí.</p>
-        
-        <div class="biblia-controles">
-            <select id="select-libro" onchange="actualizarCapitulos()">
-            </select>
+    <div id="modal-auth" class="modal hidden">
+        <div class="contenido-modal">
+            <span class="cerrar-modal" onclick="cerrarModalAuth()">&times;</span>
+            
+            <div id="form-login">
+                <h3>Iniciar Sesión</h3>
+                <form onsubmit="manejarAuth(event, 'login')">
+                    <input type="email" id="login-email" placeholder="Correo electrónico" required>
+                    <input type="password" id="login-password" placeholder="Contraseña" required>
+                    <button type="submit" class="btn-auth">Ingresar</button>
+                </form>
+                <p class="cambio-auth">¿No tienes cuenta? <a href="#" onclick="alternarFormularios()">Regístrate aquí</a></p>
+            </div>
 
-            <select id="select-capitulo" onchange="cargarCapitulo()">
-            </select>
+            <div id="form-registro" class="hidden">
+                <h3>Crear Cuenta</h3>
+                <form onsubmit="manejarAuth(event, 'registro')">
+                    <input type="text" id="reg-nombre" placeholder="Tu Nombre" required>
+                    <input type="email" id="reg-email" placeholder="Correo electrónico" required>
+                    <input type="password" id="reg-password" placeholder="Contraseña de 6+ caracteres" minlength="6" required>
+                    <button type="submit" class="btn-auth">Registrarse</button>
+                </form>
+                <p class="cambio-auth">¿Ya tienes cuenta? <a href="#" onclick="alternarFormularios()">Inicia sesión</a></p>
+            </div>
         </div>
+    </div>
 
-        <div class="biblia-visor">
-            <div id="visor-texto" class="texto-sagrado">
-                </div>
-        </div>
-    </section>
-    <footer>
-        <p>&copy; 2026 Palabras de Aliento. Hecho con ❤️ para bendecir tu vida.</p>
-    </footer>
-    <script src="scritp.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
