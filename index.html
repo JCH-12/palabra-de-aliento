@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Palabras de Aliento es un refugio espiritual para encontrar versículos bíblicos según tu ánimo, leer capítulos completos en español y guardar tus favoritos." />
+    <meta name="theme-color" content="#4a7c59" />
+    <meta property="og:title" content="Palabras de Aliento - Refugio espiritual" />
+    <meta property="og:description" content="Encuentra ánimo en la Biblia con versículos según tu estado de ánimo, lectura completa y favoritos personales." />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%234a7c59'/%3E%3Cpath d='M30 25h40v50H30z' fill='%23fff'/%3E%3Cpath d='M40 35h20v5H40zm0 12h20v5H40zm0 12h20v5H40z' fill='%234a7c59'/%3E%3C/svg%3E" type="image/svg+xml" />
     <title>Palabras de Aliento - Tu Refugio Espiritual</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -16,8 +22,53 @@
         </div>
     </nav>
 
-    <main class="contenedor-app">
-        
+    <header class="hero" aria-label="Presentación de la aplicación" role="banner">
+        <div class="hero-texto">
+            <span class="hero-pretitle">Un espacio para tu ánimo y tu fe</span>
+            <h1>Encuentra palabras de aliento en la Biblia</h1>
+            <p>Explora versículos según tu estado de ánimo, lee capítulos completos en español y guarda tus textos favoritos para volver a ellos cuando más lo necesites.</p>
+            <div class="hero-acciones">
+                <button type="button" onclick="document.querySelector('.seccion-animo').scrollIntoView({ behavior: 'smooth' })">Ver versículos</button>
+                <button type="button" onclick="document.getElementById('select-libro').focus()">Leer la Biblia</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="contenedor-app" aria-label="Aplicación de palabras de ánimo y lectura bíblica">
+
+        <section class="versiculo-dia">
+            <h2>Versículo del día</h2>
+            <div class="card-versiculo-dia">
+                <blockquote id="versiculo-dia-texto">Encontrarás un versículo que te acompañe hoy.</blockquote>
+                <p class="versiculo-dia-cita" id="versiculo-dia-cita"></p>
+            </div>
+        </section>
+
+        <section class="section-beneficios">
+            <h2>Descubre cómo funciona</h2>
+            <p>Usa la aplicación para encontrar calma, esperanza y fuerza desde la Palabra, en cualquier momento del día.</p>
+            <div class="beneficios-grid">
+                <article class="beneficio-card">
+                    <h3>Versículos para tu ánimo</h3>
+                    <p>Selecciona tu estado de ánimo y encuentra pasajes bíblicos inspiradores que conectan con tu situación actual.</p>
+                </article>
+                <article class="beneficio-card">
+                    <h3>Lectura completa</h3>
+                    <p>Consulta capítulos completos de la Biblia en español con un lector claro, fácil de navegar y listo para tu estudio.</p>
+                </article>
+                <article class="beneficio-card">
+                    <h3>Favoritos personalizados</h3>
+                    <p>Guarda tus versículos preferidos con tu perfil local y accede a ellos cuando necesites un recuerdo de paz.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="section-sobre-mi">
+            <h2>Sobre el creador</h2>
+            <p>Soy Josue Concepción y diseñé esta web para ofrecer un espacio de reflexión espiritual y apoyo emocional con la Palabra de Dios.</p>
+            <p>Mi objetivo es que puedas encontrar consuelo a través de versículos, leer la Biblia con tranquilidad y guardar tus reflexiones personales.</p>
+        </section>
+
         <section class="seccion-animo">
             <h2>¿Cómo te sientes hoy?</h2>
             <p>Selecciona tu estado de ánimo para recibir guía de las Escrituras:</p>
@@ -27,6 +78,9 @@
                 <button class="btn-animo btn-animo--feliz" data-animo="feliz" onclick="mostrarVersiculo('feliz')">😊 Feliz</button>
                 <button class="btn-animo btn-animo--cansado" data-animo="cansado" onclick="mostrarVersiculo('cansado')">😴 Cansado</button>
                 <button class="btn-animo btn-animo--temeroso" data-animo="temeroso" onclick="mostrarVersiculo('temeroso')">😨 Temeroso</button>
+                <button class="btn-animo btn-animo--esperanza" data-animo="esperanza" onclick="mostrarVersiculo('esperanza')">🌟 Esperanza</button>
+                <button class="btn-animo btn-animo--gratitud" data-animo="gratitud" onclick="mostrarVersiculo('gratitud')">🙏 Gratitud</button>
+                <button class="btn-animo btn-animo--fortaleza" data-animo="fortaleza" onclick="mostrarVersiculo('fortaleza')">💪 Fortaleza</button>
             </div>
         </section>
 
@@ -59,35 +113,58 @@
                 <select id="select-libro" onchange="actualizarCapitulos()"></select>
                 <select id="select-capitulo" onchange="cargarCapitulo()"></select>
             </div>
+            <div class="buscador-biblia">
+                <input id="input-buscar" type="search" placeholder="Buscar palabra o frase en este capítulo" oninput="filtrarVersiculosCapitulo()" />
+                <button type="button" onclick="limpiarBusquedaBiblia()">Limpiar</button>
+            </div>
+            <div class="capitulo-navegacion">
+                <button type="button" onclick="cambiarCapitulo(-1)">⟵ Anterior</button>
+                <span id="texto-capitulo-actual">Génesis 1</span>
+                <button type="button" onclick="cambiarCapitulo(1)">Siguiente ⟶</button>
+            </div>
             <div id="visor-texto">
                 <p class="instruccion-inicial">Selecciona un libro y capítulo para comenzar la lectura.</p>
             </div>
         </section>
     </main>
 
-    <div id="modal-auth" class="modal hidden">
+    <footer class="site-footer">
+        <div class="footer-contenido">
+            <p>Palabras de Aliento — una web sencilla para tu paz y reflexión diaria.</p>
+            <p>Diseñada y creada por Josue Concepción.</p>
+        </div>
+    </footer>
+
+    <div id="modal-auth" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="login-title" aria-hidden="true">
         <div class="contenido-modal">
-            <span class="cerrar-modal" onclick="cerrarModalAuth()">&times;</span>
+            <span class="cerrar-modal" onclick="cerrarModalAuth()" aria-label="Cerrar diálogo">&times;</span>
             
             <div id="form-login">
-                <h3>Iniciar Sesión</h3>
+                <h3 id="login-title">Iniciar sesión local</h3>
+                <p class="auth-nota">Tu perfil se guarda solo en este dispositivo.</p>
                 <form onsubmit="manejarAuth(event, 'login')">
+                    <label for="login-email" class="sr-only">Correo electrónico</label>
                     <input type="email" id="login-email" placeholder="Correo electrónico" required>
+                    <label for="login-password" class="sr-only">Contraseña</label>
                     <input type="password" id="login-password" placeholder="Contraseña" required>
                     <button type="submit" class="btn-auth">Ingresar</button>
                 </form>
-                <p class="cambio-auth">¿No tienes cuenta? <a href="#" onclick="alternarFormularios()">Regístrate aquí</a></p>
+                <p class="cambio-auth">¿No tienes perfil? <a href="#" onclick="alternarFormularios(event)">Regístrate aquí</a></p>
             </div>
 
             <div id="form-registro" class="hidden">
-                <h3>Crear Cuenta</h3>
+                <h3 id="reg-title">Crear perfil local</h3>
+                <p class="auth-nota">Tu perfil se guarda solo en este dispositivo.</p>
                 <form onsubmit="manejarAuth(event, 'registro')">
+                    <label for="reg-nombre" class="sr-only">Tu Nombre</label>
                     <input type="text" id="reg-nombre" placeholder="Tu Nombre" required>
+                    <label for="reg-email" class="sr-only">Correo electrónico</label>
                     <input type="email" id="reg-email" placeholder="Correo electrónico" required>
+                    <label for="reg-password" class="sr-only">Contraseña de 6+ caracteres</label>
                     <input type="password" id="reg-password" placeholder="Contraseña de 6+ caracteres" minlength="6" required>
                     <button type="submit" class="btn-auth">Registrarse</button>
                 </form>
-                <p class="cambio-auth">¿Ya tienes cuenta? <a href="#" onclick="alternarFormularios()">Inicia sesión</a></p>
+                <p class="cambio-auth">¿Ya tienes perfil? <a href="#" onclick="alternarFormularios(event)">Inicia sesión</a></p>
             </div>
         </div>
     </div>

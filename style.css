@@ -16,16 +16,34 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: var(--fuente-base);
     background-color: var(--color-fondo);
     color: var(--color-texto);
     line-height: 1.6;
+    min-height: 100vh;
 }
 
 /* Herramienta clave para ocultar elementos dinámicos */
 .hidden {
     display: none !important;
+}
+
+/* Utilidad accesible: esconder visualmente pero mantener para lectores de pantalla */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* ==========================================================================
@@ -95,6 +113,91 @@ section {
     text-align: center;
 }
 
+.hero {
+    background: linear-gradient(135deg, rgba(74,124,89,0.95) 0%, rgba(104,128,154,0.95) 100%);
+    color: white;
+    padding: 3rem 1rem;
+    border-radius: 0 0 32px 32px;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.hero-texto {
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+.hero-pretitle {
+    display: inline-block;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.85;
+}
+
+.hero h1 {
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    margin-bottom: 1rem;
+    line-height: 1.05;
+}
+
+.hero p {
+    font-size: 1.1rem;
+    max-width: 760px;
+    margin: 0 auto 1.8rem;
+    color: rgba(255,255,255,0.92);
+}
+
+.hero-acciones {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.hero-acciones button {
+    border: none;
+    border-radius: 999px;
+    padding: 0.95rem 1.5rem;
+    cursor: pointer;
+    font-weight: 700;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.hero-acciones button:hover {
+    transform: translateY(-2px);
+}
+
+.hero-acciones button:first-child {
+    background-color: #fff;
+    color: var(--color-principal);
+}
+
+.hero-acciones button:last-child {
+    background-color: rgba(255,255,255,0.16);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.32);
+}
+
+.site-footer {
+    background-color: #fff;
+    padding: 2rem 1rem;
+    text-align: center;
+}
+
+.footer-contenido {
+    max-width: 760px;
+    margin: 0 auto;
+    color: #556b57;
+    font-size: 0.98rem;
+    line-height: 1.8;
+}
+
+.footer-contenido p {
+    margin-bottom: 0.5rem;
+}
+
 h2 {
     color: var(--color-principal);
     margin-bottom: 0.5rem;
@@ -105,11 +208,147 @@ p {
     margin-bottom: 1.5rem;
 }
 
+.versiculo-dia {
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 2rem;
+    border-radius: 20px;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.05);
+    text-align: center;
+}
+
+.card-versiculo-dia {
+    margin-top: 1rem;
+    padding: 1.75rem;
+    border-radius: 18px;
+    background-color: #f8fff6;
+    border: 1px solid rgba(74,124,89,0.16);
+}
+
+.card-versiculo-dia blockquote {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: #264f39;
+    font-style: italic;
+}
+
+.versiculo-dia-cita {
+    margin-top: 1rem;
+    font-weight: 700;
+    color: #4a7c59;
+}
+
+.capitulo-navegacion {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+}
+
+.capitulo-navegacion button {
+    background-color: var(--color-principal);
+    color: white;
+    border: none;
+    border-radius: 999px;
+    padding: 0.85rem 1.2rem;
+    cursor: pointer;
+    font-weight: 700;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.capitulo-navegacion button:hover {
+    background-color: #3b6347;
+    transform: translateY(-1px);
+}
+
+#texto-capitulo-actual {
+    font-weight: 700;
+    color: #2c3e50;
+}
+
 /* Botones de Estados de Ánimo */
 .botones-animo {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: 1rem;
+}
+
+.section-sobre-mi {
+    background-color: #eef6ef;
+    color: #3b5943;
+    padding: 1.8rem;
+    border-radius: 20px;
+    box-shadow: inset 0 0 0 1px rgba(74,124,89,0.08);
+}
+
+.section-sobre-mi p {
+    max-width: 720px;
+    margin: 0.75rem auto 0;
+    color: #4f6c58;
+}
+
+.buscador-biblia {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.buscador-biblia input {
+    flex: 1 1 240px;
+    min-width: 240px;
+    padding: 0.9rem 1rem;
+    border-radius: 999px;
+    border: 1px solid #c8d2cc;
+    outline: none;
+    font-size: 1rem;
+}
+
+.buscador-biblia button {
+    border: none;
+    background-color: var(--color-principal);
+    color: white;
+    padding: 0.9rem 1.3rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.buscador-biblia button:hover {
+    background-color: #3b6347;
+}
+
+.mensaje-busqueda {
+    margin-top: 1rem;
+    color: #a83b3b;
+    font-weight: 700;
+}
+
+.nota-personal-input {
+    width: 100%;
+    min-height: 90px;
+    border-radius: 18px;
+    border: 1px solid rgba(74,124,89,0.22);
+    padding: 0.95rem 1rem;
+    resize: vertical;
+    font-family: inherit;
+    font-size: 0.96rem;
+    color: #2b3a41;
+    background-color: #fff;
+    margin-top: 0.75rem;
+}
+
+.favorito-verse-note {
+    display: block;
+    margin-top: 0.65rem;
+    color: #577058;
+    font-size: 0.95rem;
+    font-style: italic;
 }
 
 .btn-animo {
@@ -191,6 +430,42 @@ p {
     color: #fff;
 }
 
+.btn-animo--esperanza {
+    background-color: #eef4f9;
+    color: #33658a;
+    border-color: #7fa6c1;
+}
+
+.btn-animo--esperanza.active,
+.btn-animo--esperanza:hover {
+    background-color: #4a8bc1;
+    color: #fff;
+}
+
+.btn-animo--gratitud {
+    background-color: #fcf4e9;
+    color: #8a5c2c;
+    border-color: #d7b383;
+}
+
+.btn-animo--gratitud.active,
+.btn-animo--gratitud:hover {
+    background-color: #d18f57;
+    color: #fff;
+}
+
+.btn-animo--fortaleza {
+    background-color: #e8f2f1;
+    color: #2f5b50;
+    border-color: #90b3ab;
+}
+
+.btn-animo--fortaleza.active,
+.btn-animo--fortaleza:hover {
+    background-color: #4d877d;
+    color: #fff;
+}
+
 /* Caja del Versículo Resultado */
 #box-versiculo {
     background-color: #eef5f0;
@@ -225,6 +500,21 @@ p {
 #box-versiculo.mood-temeroso {
     background: linear-gradient(135deg, #f9e7f0 0%, #fff7fb 100%);
     border-color: #b5688d;
+}
+
+#box-versiculo.mood-esperanza {
+    background: linear-gradient(135deg, #eef4f9 0%, #f5fbff 100%);
+    border-color: #4a8bc1;
+}
+
+#box-versiculo.mood-gratitud {
+    background: linear-gradient(135deg, #fcf4e9 0%, #fffaf4 100%);
+    border-color: #d18f57;
+}
+
+#box-versiculo.mood-fortaleza {
+    background: linear-gradient(135deg, #e8f2f1 0%, #f4fcfb 100%);
+    border-color: #4d877d;
 }
 
 #box-versiculo.mood-triste .btn-libro-animo {
@@ -389,6 +679,78 @@ p {
 /* Panel de Favoritos */
 #panel-favoritos {
     border-top: 3px solid #ffcad4;
+    padding-top: 1.5rem;
+}
+
+.item-favorito {
+    background-color: #fcfcfb;
+    border: 1px solid rgba(108, 140, 97, 0.14);
+    border-radius: 16px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.libro-favorito {
+    border-color: rgba(74, 124, 89, 0.26);
+}
+
+.favorito-libro-header {
+    width: 100%;
+    text-align: left;
+    border: none;
+    background: transparent;
+    color: var(--color-principal);
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0;
+}
+
+.favorito-versiculos {
+    margin-top: 1rem;
+    border-top: 1px solid rgba(108, 140, 97, 0.14);
+    padding-top: 1rem;
+}
+
+.favorito-versiculo-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(108, 140, 97, 0.08);
+}
+
+.favorito-versiculo-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.favorito-verse-text p {
+    margin: 0;
+    font-style: italic;
+    color: #2c3e50;
+}
+
+.favorito-verse-text small {
+    color: #6b8e23;
+    font-weight: bold;
+}
+
+.btn-eliminar-fav {
+    background-color: #ffeded;
+    border: 1px solid #f3b9b9;
+    color: #b23434;
+    padding: 0.5rem 0.9rem;
+    border-radius: 999px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.btn-eliminar-fav:hover {
+    background-color: #f5baba;
 }
 
 /* Visor de la Biblia */
@@ -396,24 +758,27 @@ p {
     display: flex;
     gap: 1rem;
     justify-content: center;
+    flex-wrap: wrap;
     margin-bottom: 1.5rem;
 }
 
 .selectores-biblia select {
-    padding: 0.6rem 1rem;
-    border-radius: 8px;
-    border: 1px solid #cccccc;
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    border: 1px solid #c8d2cc;
     font-size: 1rem;
     outline: none;
-    min-width: 150px;
+    min-width: 170px;
+    background-color: #fafafa;
 }
 
 #visor-texto {
-    background-color: #fcfcfb;
+    background-color: #f9fbf9;
     padding: 2rem;
     border-radius: 14px;
     text-align: left;
-    max-height: 460px;
+    min-height: 380px;
+    max-height: 520px;
     overflow-y: auto;
     box-shadow: inset 0 0 0 1px rgba(76, 115, 88, 0.08);
 }
@@ -424,6 +789,75 @@ p {
     line-height: 2.05;
     margin-bottom: 1.1rem;
     letter-spacing: 0.02em;
+}
+
+.section-beneficios {
+    background-color: rgba(74,124,89,0.08);
+    padding: 2rem;
+    border-radius: 20px;
+    margin-bottom: 2rem;
+    text-align: left;
+}
+
+.section-beneficios h2 {
+    color: var(--color-principal);
+    margin-bottom: 0.75rem;
+}
+
+.section-beneficios p {
+    max-width: 680px;
+    margin-bottom: 1.8rem;
+    color: #4f6662;
+}
+
+.beneficios-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.beneficio-card {
+    background-color: #ffffff;
+    border: 1px solid rgba(74,124,89,0.16);
+    border-radius: 18px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 24px rgba(74,124,89,0.08);
+}
+
+.beneficio-card h3 {
+    margin-bottom: 0.75rem;
+    color: var(--color-principal);
+}
+
+.beneficio-card p {
+    margin-bottom: 0;
+    color: #5f6f62;
+}
+
+@media (max-width: 768px) {
+    .hero {
+        padding: 2.25rem 1rem;
+    }
+
+    .nav-botones {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .nav-botones button {
+        margin: 0.35rem 0 0 0;
+    }
+}
+
+@media (max-width: 640px) {
+    .hero-acciones {
+        flex-direction: column;
+    }
+
+    .hero-acciones button {
+        width: 100%;
+    }
 }
 
 .versiculo-linea {
@@ -485,8 +919,15 @@ p {
 }
 
 .contenido-modal h3 {
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.5rem;
     color: var(--color-texto);
+}
+
+.auth-nota {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+    margin-bottom: 1rem;
+    text-align: center;
 }
 
 .contenido-modal input {

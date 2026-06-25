@@ -5,11 +5,11 @@ const versiculosPorAnimo = {
     triste: [
         { id: "t1", libro: "Salmos", cita: "Salmos 34:18", texto: "Cercano está Jehová a los quebrantados de corazón; y salva a los contritos de espíritu." },
         { id: "t2", libro: "Mateo", cita: "Mateo 5:4", texto: "Bienaventurados los que lloran, porque ellos recibirán consolación." },
-        { id: "t3", libro: "Isaías", cita: "Isaías 41:10", texto: "No temas, porque yo estoy contigo; no desmayes, porque yo estoy con tu Dios que te esfuerzo..." },
+        { id: "t3", libro: "Isaías", cita: "Isaías 41:10", texto: "No temas, que yo soy contigo; no desmayes, que yo soy tu Dios que te esfuerzo: siempre te ayudaré, siempre te sustentaré con la diestra de mi justicia." },
         { id: "t4", libro: "Salmos", cita: "Salmos 23:1", texto: "Jehová es mi pastor; nada me faltará." }
     ],
     ansioso: [
-        { id: "a1", libro: "Filipenses", cita: "Filipenses 4:6", texto: "Por nada estéis afanosos, sino sean conocidas vuestras peticiones delante de Dios en toda oración y ruego..." },
+        { id: "a1", libro: "Filipenses", cita: "Filipenses 4:6", texto: "Por nada estéis afanosos; sino sean notorias vuestras peticiones delante de Dios en toda oración y ruego, con hacimiento de gracias." },
         { id: "a2", libro: "1 Pedro", cita: "1 Pedro 5:7", texto: "Echando toda vuestra ansiedad sobre él, porque él tiene cuidado de vosotros." },
         { id: "a3", libro: "Salmos", cita: "Salmos 94:19", texto: "En la multitud de mis pensamientos dentro de mí, tus consolaciones alegraban mi alma." }
     ],
@@ -26,6 +26,18 @@ const versiculosPorAnimo = {
         { id: "m1", libro: "Salmos", cita: "Salmos 91:1", texto: "El que habita al abrigo del Altísimo morará bajo la sombra del Omnipotente." },
         { id: "m2", libro: "Salmos", cita: "Salmos 56:3", texto: "En el día que temo, yo en ti confío." },
         { id: "m3", libro: "2 Timoteo", cita: "2 Timoteo 1:7", texto: "Porque no nos ha dado Dios espíritu de cobardía, sino de poder, de amor y de dominio propio." }
+    ],
+    esperanza: [
+        { id: "e1", libro: "Romanos", cita: "Romanos 15:13", texto: "Y el Dios de esperanza os llene de todo gozo y paz en el creer, para que abundéis en esperanza por el poder del Espíritu Santo." },
+        { id: "e2", libro: "Salmos", cita: "Salmos 39:7", texto: "Y ahora, Señor, ¿qué esperaré? Mi esperanza está en ti." }
+    ],
+    gratitud: [
+        { id: "g1", libro: "1 Tesalonicenses", cita: "1 Tesalonicenses 5:18", texto: "Dad gracias en todo, porque esta es la voluntad de Dios para con vosotros en Cristo Jesús." },
+        { id: "g2", libro: "Salmos", cita: "Salmos 107:1", texto: "Dad gracias a Jehová, porque él es bueno; porque para siempre es su misericordia." }
+    ],
+    fortaleza: [
+        { id: "fo1", libro: "Isaías", cita: "Isaías 40:31", texto: "Pero los que esperan a Jehová tendrán nuevas fuerzas; levantarán alas como las águilas; correrán, y no se cansarán; caminarán, y no se fatigarán." },
+        { id: "fo2", libro: "Filipenses", cita: "Filipenses 4:13", texto: "Todo lo puedo en Cristo que me fortalece." }
     ]
 };
 
@@ -44,9 +56,13 @@ function cargarFavoritosUsuario() {
     if (contador) contador.innerText = misFavoritos.length;
 }
 
+
 // ==========================================
 // 2. LÓGICA DE USUARIOS (LOGIN / REGISTRO)
 // ==========================================
+let __lastFocusedBeforeModal = null;
+let __modalKeydownHandler = null;
+
 function abrirModalAuth() {
     if (usuarioLogueado) {
         // Si ya está logueado, el botón sirve para cerrar sesión
@@ -56,36 +72,102 @@ function abrirModalAuth() {
         actualizarInterfazUsuario();
         actualizarVistaFavoritos();
         alert("Has cerrado sesión.");
-    } else {
-        document.getElementById('modal-auth').classList.remove('hidden');
+        return;
     }
+
+    const modal = document.getElementById('modal-auth');
+    if (!modal) return;
+
+    __lastFocusedBeforeModal = document.activeElement;
+    modal.classList.remove('hidden');
+    modal.setAttribute('aria-hidden', 'false');
+
+    // Establecer aria-labelledby según el formulario visible
+    const visibleTitle = document.getElementById('form-login').classList.contains('hidden') ? document.getElementById('reg-title') : document.getElementById('login-title');
+    if (visibleTitle) modal.setAttribute('aria-labelledby', visibleTitle.id);
+
+    // Foco al primer control del formulario visible
+    const firstInput = modal.querySelector('input:not([type="hidden"])');
+    if (firstInput) firstInput.focus();
+
+    // Handler para Escape y trap de foco
+    __modalKeydownHandler = function(e) {
+        if (e.key === 'Escape') {
+            cerrarModalAuth();
+        } else if (e.key === 'Tab') {
+            // simple focus trap
+            const focusables = modal.querySelectorAll('a[href], button:not([disabled]), textarea, input, select');
+            const focusArray = Array.prototype.slice.call(focusables).filter(el => el.offsetParent !== null);
+            if (focusArray.length === 0) return;
+            const first = focusArray[0];
+            const last = focusArray[focusArray.length - 1];
+            if (e.shiftKey && document.activeElement === first) {
+                e.preventDefault();
+                last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+                e.preventDefault();
+                first.focus();
+            }
+        }
+    };
+
+    document.addEventListener('keydown', __modalKeydownHandler);
 }
 
 function cerrarModalAuth() {
-    document.getElementById('modal-auth').classList.add('hidden');
+    const modal = document.getElementById('modal-auth');
+    if (!modal) return;
+    modal.classList.add('hidden');
+    modal.setAttribute('aria-hidden', 'true');
+    if (__modalKeydownHandler) {
+        document.removeEventListener('keydown', __modalKeydownHandler);
+        __modalKeydownHandler = null;
+    }
+    if (__lastFocusedBeforeModal && __lastFocusedBeforeModal.focus) {
+        try { __lastFocusedBeforeModal.focus(); } catch (e) {}
+        __lastFocusedBeforeModal = null;
+    }
 }
 
-function alternarFormularios() {
-    document.getElementById('form-login').classList.toggle('hidden');
-    document.getElementById('form-registro').classList.toggle('hidden');
+function alternarFormularios(event) {
+    if (event) event.preventDefault();
+    const login = document.getElementById('form-login');
+    const reg = document.getElementById('form-registro');
+    if (!login || !reg) return;
+    login.classList.toggle('hidden');
+    reg.classList.toggle('hidden');
+
+    // Actualizar aria-labelledby del modal
+    const modal = document.getElementById('modal-auth');
+    const visibleTitle = login.classList.contains('hidden') ? document.getElementById('reg-title') : document.getElementById('login-title');
+    if (modal && visibleTitle) modal.setAttribute('aria-labelledby', visibleTitle.id);
+
+    // Mover foco al primer input del formulario mostrado
+    const firstInput = (login.classList.contains('hidden') ? reg : login).querySelector('input');
+    if (firstInput) firstInput.focus();
 }
 
 function manejarAuth(event, tipo) {
     event.preventDefault();
     if (tipo === 'registro') {
-        const nombre = document.getElementById('reg-nombre').value;
-        const email = document.getElementById('reg-email').value;
-        usuarioLogueado = { nombre: nombre, email: email };
+        const nombre = document.getElementById('reg-nombre').value.trim();
+        const email = document.getElementById('reg-email').value.trim();
+        if (!nombre || !email) return;
+        usuarioLogueado = { nombre, email };
     } else {
-        const email = document.getElementById('login-email').value;
-        usuarioLogueado = { nombre: email.split('@')[0], email: email };
+        const email = document.getElementById('login-email').value.trim();
+        if (!email) return;
+        usuarioLogueado = { nombre: email.split('@')[0], email };
     }
-    
+
     localStorage.setItem('usuarioActivo', JSON.stringify(usuarioLogueado));
     cargarFavoritosUsuario();
     actualizarInterfazUsuario();
     cerrarModalAuth();
-    alert(`¡Bienvenido de nuevo, ${usuarioLogueado.nombre}!`);
+    const mensaje = tipo === 'registro'
+        ? `¡Bienvenido, ${usuarioLogueado.nombre}! Tu perfil local está listo.`
+        : `¡Bienvenido de nuevo, ${usuarioLogueado.nombre}!`;
+    alert(mensaje);
 }
 
 function actualizarInterfazUsuario() {
@@ -111,7 +193,13 @@ function actualizarInterfazUsuario() {
 // ==========================================
 // 3. LÓGICA DE FAVORITOS
 // ==========================================
-function agregarAFavoritos(idVersiculo, texto, cita) {
+function obtenerLibroDeCita(cita) {
+    if (!cita) return 'Libro desconocido';
+    const sinVersiculo = cita.replace(/:\d+(-\d+)?$/, '').trim();
+    return sinVersiculo || 'Libro desconocido';
+}
+
+function agregarAFavoritos(idVersiculo, texto, cita, notaPersonal = '') {
     if (!usuarioLogueado) {
         // Intentar sincronizar desde localStorage si existe (corrección rápida)
         const almacen = localStorage.getItem('usuarioActivo');
@@ -137,21 +225,25 @@ function agregarAFavoritos(idVersiculo, texto, cita) {
         return;
     }
 
-    misFavoritos.push({ id: idVersiculo, texto: texto, cita: cita });
+    const libro = obtenerLibroDeCita(cita);
+    misFavoritos.push({ id: idVersiculo, texto: texto, cita: cita, libro: libro, nota: notaPersonal });
     const key = 'favoritosApp_' + usuarioLogueado.email;
     localStorage.setItem(key, JSON.stringify(misFavoritos));
-    document.getElementById('contador-favs').innerText = misFavoritos.length;
+    const contador = document.getElementById('contador-favs');
+    if (contador) contador.innerText = misFavoritos.length;
     actualizarVistaFavoritos();
     alert("💖 Versículo guardado en tus favoritos.");
 }
 
 function eliminarFavorito(idVersiculo) {
+    if (!confirm('¿Eliminar este versículo de tus favoritos?')) return;
     misFavoritos = misFavoritos.filter(fav => fav.id !== idVersiculo);
     if (usuarioLogueado && usuarioLogueado.email) {
         const key = 'favoritosApp_' + usuarioLogueado.email;
         localStorage.setItem(key, JSON.stringify(misFavoritos));
     }
-    document.getElementById('contador-favs').innerText = misFavoritos.length;
+    const contador = document.getElementById('contador-favs');
+    if (contador) contador.innerText = misFavoritos.length;
     actualizarVistaFavoritos();
 }
 
@@ -166,18 +258,72 @@ function actualizarVistaFavoritos() {
         return;
     }
 
-    contenedor.innerHTML = "";
+    const libros = {};
     misFavoritos.forEach(fav => {
-        const div = document.createElement('div');
-        div.className = "item-favorito";
-        div.innerHTML = `
-            <div>
-                <p style="margin:0; font-style:italic;">"${fav.texto}"</p>
-                <small style="color: #6b8e23; font-weight:bold;">${fav.cita}</small>
-            </div>
-            <button class="btn-eliminar-fav" onclick="eliminarFavorito('${fav.id}')">🗑️</button>
-        `;
-        contenedor.appendChild(div);
+        const libro = fav.libro || obtenerLibroDeCita(fav.cita);
+        if (!libro) return;
+        if (!libros[libro]) libros[libro] = [];
+        libros[libro].push(fav);
+    });
+
+    contenedor.innerHTML = "";
+
+    Object.keys(libros).forEach((nombreLibro) => {
+        const grupo = libros[nombreLibro];
+        const card = document.createElement('div');
+        card.className = 'item-favorito libro-favorito';
+
+        const header = document.createElement('button');
+        header.type = 'button';
+        header.className = 'favorito-libro-header';
+        header.textContent = `${nombreLibro} (${grupo.length}) — Ver / Ocultar`;
+        header.addEventListener('click', () => {
+            detalles.classList.toggle('hidden');
+            card.classList.toggle('abierto');
+        });
+
+        const detalles = document.createElement('div');
+        detalles.className = 'favorito-versiculos hidden';
+
+        grupo.forEach((fav) => {
+            const fila = document.createElement('div');
+            fila.className = 'favorito-versiculo-item';
+            const texto = document.createElement('div');
+            texto.className = 'favorito-verse-text';
+
+            const parrafo = document.createElement('p');
+            parrafo.textContent = `"${fav.texto}"`;
+
+            const cita = document.createElement('small');
+            cita.textContent = fav.cita;
+
+            texto.appendChild(parrafo);
+            texto.appendChild(cita);
+
+            if (fav.nota) {
+                const nota = document.createElement('span');
+                nota.className = 'favorito-verse-note';
+                nota.textContent = `Nota: ${fav.nota}`;
+                texto.appendChild(nota);
+            }
+
+            const eliminarBtn = document.createElement('button');
+            eliminarBtn.type = 'button';
+            eliminarBtn.className = 'btn-eliminar-fav';
+            eliminarBtn.textContent = 'Eliminar';
+            eliminarBtn.addEventListener('click', () => {
+                eliminarFavorito(fav.id);
+                header.focus();
+            });
+
+            fila.appendChild(texto);
+            fila.appendChild(eliminarBtn);
+            detalles.appendChild(fila);
+        });
+
+        card.appendChild(header);
+        card.appendChild(detalles);
+        contenedor.appendChild(card);
     });
 }
 
@@ -211,7 +357,7 @@ function mostrarVersiculo(animo) {
     });
 
     // Ajustar paleta de colores para el estado de ánimo
-    boxVersiculo.classList.remove('mood-triste', 'mood-ansioso', 'mood-feliz', 'mood-cansado', 'mood-temeroso');
+    boxVersiculo.classList.remove('mood-triste', 'mood-ansioso', 'mood-feliz', 'mood-cansado', 'mood-temeroso', 'mood-esperanza', 'mood-gratitud', 'mood-fortaleza');
     boxVersiculo.classList.add(`mood-${animo}`);
 
     // Marcar el botón de ánimo activo
@@ -239,15 +385,21 @@ function mostrarVersiculo(animo) {
                 const strong = document.createElement('strong');
                 strong.textContent = `- ${item.cita}`;
 
+                const notaInput = document.createElement('textarea');
+                notaInput.className = 'nota-personal-input';
+                notaInput.placeholder = 'Escribe una nota personal para este versículo...';
+                notaInput.rows = 2;
+
                 const favBtn = document.createElement('button');
                 favBtn.className = 'btn-fav-card';
                 favBtn.textContent = '💖 Guardar en favoritos';
                 favBtn.addEventListener('click', function() {
-                    agregarAFavoritos(item.id, item.texto, item.cita);
+                    agregarAFavoritos(item.id, item.texto, item.cita, notaInput.value);
                 });
 
                 bloqueVersiculo.appendChild(p);
                 bloqueVersiculo.appendChild(strong);
+                bloqueVersiculo.appendChild(notaInput);
                 bloqueVersiculo.appendChild(favBtn);
 
                 textoVersiculo.appendChild(bloqueVersiculo);
@@ -335,9 +487,80 @@ const infoLibros = {
     "REV": { nombre: "Apocalipsis", caps: 22, apiKey: "Revelation" }
 };
 
-let bibliaLocal = null;
+const clavesBibliaLocal = {
+    "GEN": "GEN",
+    "EXO": "EXO",
+    "LEV": "LEV",
+    "NUM": "NUM",
+    "DEU": "DEU",
+    "JOS": "JOS",
+    "JDG": "JDG",
+    "RUT": "RUT",
+    "1SA": "1SA",
+    "2SA": "2SA",
+    "1KI": "1KI",
+    "2KI": "2KI",
+    "1CH": "1CH",
+    "2CH": "2CH",
+    "EZR": "EZR",
+    "NEH": "NEH",
+    "EST": "EST",
+    "JOB": "JOB",
+    "PSA": "SAL",
+    "PRO": "PRO",
+    "ECC": "ECC",
+    "SNG": "SNG",
+    "ISA": "ISA",
+    "JER": "JER",
+    "LAM": "LAM",
+    "EZK": "EZK",
+    "DAN": "DAN",
+    "HOS": "HOS",
+    "JOL": "JOL",
+    "AMO": "AMO",
+    "OBA": "OBA",
+    "JON": "JON",
+    "MIC": "MIC",
+    "NAM": "NAM",
+    "HAB": "HAB",
+    "ZEP": "ZEP",
+    "HAG": "HAG",
+    "ZEC": "ZEC",
+    "MAL": "MAL",
+    "MAT": "MAT",
+    "MRK": "MRK",
+    "LUK": "LUK",
+    "JHN": "JHN",
+    "ACT": "ACT",
+    "ROM": "ROM",
+    "1CO": "1CO",
+    "2CO": "2CO",
+    "GAL": "GAL",
+    "EPH": "EPH",
+    "PHP": "FLP",
+    "COL": "COL",
+    "1TH": "1TH",
+    "2TH": "2TH",
+    "1TI": "1TI",
+    "2TI": "2TI",
+    "TIT": "TIT",
+    "PHM": "PHM",
+    "HEB": "HEB",
+    "JAS": "JAS",
+    "1PE": "1PE",
+    "2PE": "2PE",
+    "1JN": "1JN",
+    "2JN": "2JN",
+    "3JN": "3JN",
+    "JUD": "JUD",
+    "REV": "REV"
+};
 
-// Cargar la Biblia local en español
+function obtenerClaveBibliaLocal(libroClave) {
+    return clavesBibliaLocal[libroClave] || libroClave;
+}
+
+let bibliaLocal = null;
 async function cargarBibliaLocal() {
     try {
         const res = await fetch('biblia-rvr1960.json');
@@ -380,11 +603,21 @@ function actualizarCapitulos() {
     cargarCapitulo(); 
 }
 
+async function actualizarTextoCapituloActual() {
+    const selectLibro = document.getElementById('select-libro');
+    const selectCap = document.getElementById('select-capitulo');
+    const textoActual = document.getElementById('texto-capitulo-actual');
+    if (!selectLibro || !selectCap || !textoActual) return;
+    const libroNombre = infoLibros[selectLibro.value]?.nombre || 'Libro';
+    textoActual.textContent = `${libroNombre} ${selectCap.value}`;
+}
+
 async function cargarCapitulo() {
     const selectLibro = document.getElementById('select-libro');
     const selectCap = document.getElementById('select-capitulo');
     const selectTraduccion = document.getElementById('select-traduccion');
     const visor = document.getElementById('visor-texto');
+    actualizarTextoCapituloActual();
     if (!visor) return;
     if (!selectLibro || !selectCap || selectCap.options.length === 0) return;
     const libroClave = selectLibro.value;
@@ -400,17 +633,11 @@ async function cargarCapitulo() {
             return;
         }
         
-        // Buscar el libro en la Biblia local
-        let libroEncontrado = null;
-        for (const key in bibliaLocal.libros) {
-            if (key === libroClave) {
-                libroEncontrado = bibliaLocal.libros[key];
-                break;
-            }
-        }
+        const claveLocal = obtenerClaveBibliaLocal(libroClave);
+        const libroEncontrado = bibliaLocal.libros[claveLocal];
         
         if (!libroEncontrado || !libroEncontrado.capitulos[capitulo]) {
-            visor.innerHTML = "<p class='error-biblia'>❌ Este capítulo no está disponible en la Biblia local. Usa la versión en inglés.</p>";
+            visor.innerHTML = "<p class='error-biblia'>❌ Este capítulo no está disponible en la Biblia local.</p>";
             return;
         }
         
@@ -419,7 +646,11 @@ async function cargarCapitulo() {
         versos.forEach((ver) => {
             const p = document.createElement('p');
             p.className = "versiculo-linea";
-            p.innerHTML = `<span class="num-ver">${ver.verso}</span> ${ver.texto}`;
+            const numSpan = document.createElement('span');
+            numSpan.className = "num-ver";
+            numSpan.textContent = ver.verso;
+            p.appendChild(numSpan);
+            p.appendChild(document.createTextNode(' ' + ver.texto));
             visor.appendChild(p);
         });
         visor.scrollTop = 0;
@@ -429,10 +660,9 @@ async function cargarCapitulo() {
     // Si es inglés, usar la API
     try {
         const nombreApi = infoLibros[libroClave].apiKey;
-        let url = `https://bible-api.com/${encodeURIComponent(nombreApi)}+${capitulo}?translation=rvr1960`;
+        let url = `https://bible-api.com/${encodeURIComponent(nombreApi)}+${capitulo}?translation=web`;
         let respuesta = await fetch(url);
         
-        // Si falla con rvr1960, intentar sin parámetro de traducción
         if (!respuesta.ok) {
             url = `https://bible-api.com/${encodeURIComponent(nombreApi)}+${capitulo}`;
             respuesta = await fetch(url);
@@ -445,7 +675,11 @@ async function cargarCapitulo() {
             datos.verses.forEach((ver) => {
                 const p = document.createElement('p');
                 p.className = "versiculo-linea";
-                p.innerHTML = `<span class="num-ver">${ver.verse}</span> ${ver.text}`;
+                const numSpan = document.createElement('span');
+                numSpan.className = "num-ver";
+                numSpan.textContent = ver.verse;
+                p.appendChild(numSpan);
+                p.appendChild(document.createTextNode(' ' + ver.text));
                 visor.appendChild(p);
             });
             visor.scrollTop = 0; 
@@ -458,11 +692,94 @@ async function cargarCapitulo() {
     }
 }
 
+function cambiarCapitulo(delta) {
+    const selectLibro = document.getElementById('select-libro');
+    const selectCap = document.getElementById('select-capitulo');
+    if (!selectLibro || !selectCap) return;
+    const actual = Number(selectCap.value);
+    const maximo = infoLibros[selectLibro.value]?.caps || 1;
+    let siguiente = actual + delta;
+    if (siguiente < 1) siguiente = 1;
+    if (siguiente > maximo) siguiente = maximo;
+    if (siguiente === actual) return;
+    selectCap.value = siguiente;
+    cargarCapitulo();
+}
+
+function filtrarVersiculosCapitulo() {
+    const filtro = document.getElementById('input-buscar').value.toLowerCase();
+    const visor = document.getElementById('visor-texto');
+    if (!visor) return;
+    const versos = Array.from(visor.querySelectorAll('.versiculo-linea'));
+    let coincidencias = 0;
+
+    versos.forEach((verso) => {
+        const texto = verso.textContent.toLowerCase();
+        if (texto.includes(filtro)) {
+            verso.classList.remove('hidden');
+            coincidencias += 1;
+        } else {
+            verso.classList.add('hidden');
+        }
+    });
+
+    const mensaje = visor.querySelector('.mensaje-busqueda');
+    if (filtro && coincidencias === 0) {
+        if (!mensaje) {
+            const mensajeNodo = document.createElement('p');
+            mensajeNodo.className = 'mensaje-busqueda';
+            mensajeNodo.textContent = 'No se encontraron resultados para esa búsqueda.';
+            visor.appendChild(mensajeNodo);
+        }
+    } else if (mensaje) {
+        mensaje.remove();
+    }
+}
+
+function limpiarBusquedaBiblia() {
+    const campo = document.getElementById('input-buscar');
+    if (campo) campo.value = '';
+    filtrarVersiculosCapitulo();
+}
+
+function obtenerVersiculoDelDia() {
+    const opciones = [];
+    Object.keys(versiculosPorAnimo).forEach((animo) => {
+        versiculosPorAnimo[animo].forEach((item) => opciones.push(item));
+    });
+    if (opciones.length === 0) return null;
+    const dias = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
+    const indice = dias % opciones.length;
+    return opciones[indice];
+}
+
+function mostrarVersiculoDelDia() {
+    const versiculo = obtenerVersiculoDelDia();
+    const texto = document.getElementById('versiculo-dia-texto');
+    const cita = document.getElementById('versiculo-dia-cita');
+    if (!texto || !cita) return;
+    if (!versiculo) {
+        texto.textContent = 'Encuentra un versículo que te acompañe hoy.';
+        cita.textContent = '';
+        return;
+    }
+    texto.textContent = `"${versiculo.texto}"`;
+    cita.textContent = versiculo.cita;
+}
+
 // Al cargar el documento, dejamos activa la interfaz según la sesión guardada
 document.addEventListener("DOMContentLoaded", async function() {
+    const modal = document.getElementById('modal-auth');
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) cerrarModalAuth();
+        });
+    }
+
     await cargarBibliaLocal();
     inicializarLibros();
     cargarFavoritosUsuario();
     actualizarInterfazUsuario();
     actualizarVistaFavoritos();
+    mostrarVersiculoDelDia();
 });
